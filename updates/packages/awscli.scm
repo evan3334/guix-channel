@@ -13,14 +13,14 @@
 (define-public awscli
   (package
    (name "awscli")
-   (version "1.16.202")
+   (version "1.16.216")
    (source
     (origin
      (method url-fetch)
      (uri (pypi-uri name version))
      (sha256
       (base32
-          "0ibyl7mh3qi490qd48g65dxx8yqd5x2bcnl20b6f6m6iaw918p1y"))))
+          "08mz6nx8zvy8mrwbasss4ji8cgxdf3c2sln6bwkbnw3nlr7rvw1c"))))
    (build-system python-build-system)
    (arguments
     ;; FIXME: The 'pypi' release does not contain tests.
