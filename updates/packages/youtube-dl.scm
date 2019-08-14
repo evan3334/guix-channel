@@ -16,7 +16,7 @@
                                   version ".tar.gz"))
               (sha256
                (base32
-                "03a729198zzhixbn7xixi9bprmk3qqh5dsyh3dqhji6lmlijx1w5"))))
+                "0b94hrhbqa7jhn91pxsbphg2ylwkpkknb2y4v4sczp7rjvgmjgdj"))))
     (build-system python-build-system)
     (arguments
      ;; The problem here is that the directory for the man page and completion
