@@ -1,4 +1,4 @@
-(define-module (non-guix packages guile-websocket)
+(define-module (non-gnu packages guile-websocket)
   #:use-module (guix packages)
   #:use-module (guix download)
   #:use-module (guix git-download)
