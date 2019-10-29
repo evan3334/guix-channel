@@ -23,7 +23,7 @@
 ;; -------------------------
 
 ;; libolm
-(define-public libolm
+(define-public libolm-3.1.4
   (package
    (name "libolm")
    (version "3.1.4")
@@ -37,6 +37,34 @@
 	      "06s7rw4a9vn35wzz7chxn54mp0sjgbpv2bzz9lq0g4hnzw33cjbi"))))
    (build-system cmake-build-system)
    (arguments '(#:tests? #f)) ;; FIXME: add an actual check phase
+   (synopsis "Implementation of the olm and megolm cryptographic ratchets")
+   (description "An implementation of the Double Ratchet cryptographic ratchet 
+described by https://whispersystems.org/docs/specifications/doubleratchet/, written 
+in C and C++11 and exposed as a C API.")
+   (home-page "https://gitlab.matrix.org/matrix-org/olm")
+   (license license:asl2.0)))
+
+(define-public libolm-2.2.2
+  (package
+   (name "libolm")
+   (version "2.2.2")
+   (source (origin
+	    (method git-fetch)
+	    (uri (git-reference
+		  (url "https://gitlab.matrix.org/matrix-org/olm.git")
+		  (commit "77eaaa3d")))
+	    (sha256
+	     (base32
+	      "0l51xhc4qailvbdg799znxsrnk8xp0glj4vhsrza4fgz1a2sdqyh"))))
+   (build-system gnu-build-system)
+   (arguments '(#:tests?
+		#f       ;; FIXME: add an actual check phase
+		#:phases
+		(modify-phases %standard-phases
+		  (delete 'configure))
+		#:make-flags
+		`(,(string-append "PREFIX="
+				  (assoc-ref %outputs "out")))))
    (synopsis "Implementation of the olm and megolm cryptographic ratchets")
    (description "An implementation of the Double Ratchet cryptographic ratchet 
 described by https://whispersystems.org/docs/specifications/doubleratchet/, written 
@@ -66,7 +94,7 @@ in C and C++11 and exposed as a C API.")
 	     ("openssl" ,openssl)
 	     ("gtest" ,googletest)
 	     ("libsodium" ,libsodium)
-	     ("libolm" ,libolm)
+	     ("libolm" ,libolm-2.2.2)
 	     ("zlib" ,zlib)
 	     ("nlohmann_json" ,nlohmann-json-cpp)
 	     ("spdlog" ,spdlog)))
@@ -146,7 +174,7 @@ with RAII semantics.")
 	      ("zlib" ,zlib)
 	      ("openssl" ,openssl)
 	      ("matrixclient" ,mtxclient)
-	      ("libolm" ,libolm)
+	      ("libolm" ,libolm-2.2.2)
 	      ("spdlog" ,spdlog)
 	      ("nlohmann_json" ,nlohmann-json-cpp)
 	      ("cmark" ,cmark)
