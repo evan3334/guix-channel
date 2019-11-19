@@ -10,7 +10,7 @@
   #:use-module (srfi srfi-19))
 
 (define-public stumpwm-master
-  (let ((commit "47c3923")
+  (let ((commit "5adc827")
         (revision "2"))
     (package
      (name "stumpwm")
@@ -24,7 +24,7 @@
        (file-name (git-file-name name version))
        (sha256
 	(base32
-	 "19mp39b1imi539dij9nrg6cv7xpjwvxxqy6r1ql4sbmlhgvcz6pc"))))
+	 "1kw1s0xw3ggaz7cfs9rh7v1cai4xx7c7cigiwdss5vv5b7vs0zmj"))))
      (build-system asdf-build-system/sbcl)
      (native-inputs `(("fiasco" ,sbcl-fiasco)
 		      ("texinfo" ,texinfo)))
