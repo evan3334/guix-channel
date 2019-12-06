@@ -5,16 +5,17 @@
   #:use-module (guix build-system asdf)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages lisp)
+  #:use-module (gnu packages lisp-xyz)
   #:use-module (gnu packages texinfo)
   #:use-module (ice-9 match)
   #:use-module (srfi srfi-19))
 
 (define-public stumpwm-master
-  (let ((commit "5adc827")
-        (revision "2"))
+  (let ((commit "73e6247")
+        (revision "1"))
     (package
      (name "stumpwm")
-     (version (git-version "18.11" revision commit))
+     (version (git-version "19.11" revision commit))
      (source
       (origin
        (method git-fetch)
@@ -24,12 +25,12 @@
        (file-name (git-file-name name version))
        (sha256
 	(base32
-	 "1kw1s0xw3ggaz7cfs9rh7v1cai4xx7c7cigiwdss5vv5b7vs0zmj"))))
+	 "17az8szwmfxw6v6chykqyl4ckjm8rdmi5j14zgsrhfbkms9qzni2"))))
      (build-system asdf-build-system/sbcl)
      (native-inputs `(("fiasco" ,sbcl-fiasco)
 		      ("texinfo" ,texinfo)))
      (inputs `(("cl-ppcre" ,sbcl-cl-ppcre)
-	       ("clx" ,sbcl-clx-master)
+	       ("clx" ,sbcl-clx)
 	       ("alexandria" ,sbcl-alexandria)))
      (outputs '("out" "lib"))
      (arguments
@@ -79,11 +80,3 @@ productive, customizable lisp based systems.")
      (home-page "https://github.com/stumpwm/stumpwm")
      (license license:gpl2+)
      (properties `((cl-source-variant . ,(delay cl-stumpwm)))))))
-
-(define-public stumpwm-system
-  (package
-   (inherit stumpwm-master)
-   (name "stumpwm-system")))
-  
-(define-public sbcl-clx-master
-  (deprecated-package "sbcl-clx" sbcl-clx))
