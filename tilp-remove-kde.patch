@@ -1,0 +1,86 @@
+From 539bc9f9d70e0e6be02b3e4d708fe206686908f4 Mon Sep 17 00:00:00 2001
+From: Evan Straw <evan.straw99@gmail.com>
+Date: Sun, 25 Oct 2020 17:04:32 -0700
+Subject: [PATCH] Remove KDE dialog support in configure.ac
+
+This causes the bootstrap phase to fail. It is removed in upstream but
+still present in the latest release.
+---
+ configure.ac    | 38 ++++++++++++++++++++------------------
+ src/Makefile.am |  5 +----
+ 2 files changed, 21 insertions(+), 22 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 19609eb..4eadeaa 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -118,24 +118,26 @@ esac
+ CFLAGS="$CFLAGS $ARCH"
+ 
+ # KDE dialogs support
+-AC_ARG_WITH(kde, AC_HELP_STRING([--with-kde], [Compile with KDE support]), [kde=$withval], [kde=no])
+-if test "x$kde" = "xdefault"; then
+-  case $host_os in
+-    *mingw*)
+-      kde=no
+-      ;;
+-    *)
+-      kde=yes
+-      ;;
+-  esac
+-fi
+-if test "x$kde" = "xyes"; then
+-        AC_PROG_CXX
+-        AC_PATH_KDE
+-        AC_DEFINE(WITH_KDE, 1, [Use KDE support])
+-fi
+-AM_CONDITIONAL(USE_KDE, test "x$kde" = "xyes")
+-AC_SUBST(kde)
++#AC_ARG_WITH(kde, AC_HELP_STRING([--with-kde], [Compile with KDE support]), [kde=$withval], [kde=no])
++#if test "x$kde" = "xdefault"; then
++#  case $host_os in
++#    *mingw*)
++#      kde=no
++#      ;;
++#    *)
++#      kde=yes
++#      ;;
++#  esac
++#fi
++#if test "x$kde" = "xyes"; then
++#        AC_PROG_CXX
++#        AC_PATH_KDE
++#        AC_DEFINE(WITH_KDE, 1, [Use KDE support])
++#fi
++#AM_CONDITIONAL(USE_KDE, test "x$kde" = "xyes")
++#AC_SUBST(kde)
++AC_DEFINE(WITH_KDE, 0, [Use KDE support])
++AM_CONDITIONAL(USE_KDE, false)
+ 
+ # Ensure MSVC-compatible struct packing convention is used when
+ # compiling for Win32 with gcc.
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 0235b98..b6c8a9a 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -9,16 +9,13 @@ bin_PROGRAMS = tilp
+ tilp_CPPFLAGS = -I$(top_srcdir)/intl \
+ 	@TICABLES_CFLAGS@ @TIFILES_CFLAGS@ @TICALCS_CFLAGS@ @TICONV_CFLAGS@ \
+ 	@GLIB_CFLAGS@ @GTK_CFLAGS@ \
+-	@KDE_INCLUDES@ @QT_INCLUDES@ \
+ 	-DSHARE_DIR=\"$(pkgdatadir)\" \
+ 	-DLOCALEDIR=\"$(datadir)/locale\" \
+ 	-DSYSCONFDIR=\"$(sysconfdir)\" \
+ 	-DGTK_DISABLE_DEPRECATED
+ tilp_LDFLAGS = -export-dynamic
+ tilp_LDADD = @TICABLES_LIBS@ @TIFILES_LIBS@ @TICALCS_LIBS@ @TICONV_LIBS@ \
+-	@GLIB_LIBS@ @GTK_LIBS@ \
+-	@LIB_KDECORE@ @LIB_KDEUI@ @LIB_KIO@ @LIB_QT@ @KDE_LDFLAGS@ \
+-	@QT_LDFLAGS@ @X_LDFLAGS@ @LIBZ@
++	@GLIB_LIBS@ @GTK_LIBS@ @LIBZ@
+ tilp_SOURCES = *.h \
+ 	tilp_calcs.c tilp_cmdline.c tilp_config.c tilp_error.c \
+ 	tilp_files.c tilp_gif.c tilp_main.c \
+-- 
+2.25.1
+
