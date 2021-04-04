@@ -122,7 +122,7 @@ many popular formats.")
 (define-public olive-editor
   (let ((version "0.2.0")
 		(revision "1")
-		(commit "19eabf283062ed0d046b8ce8dee8a14af7c6de31"))
+		(commit "2f4e9809ceeba5f43583e6c923774d990c49be59"))
     (package
       (name "olive-editor")
       (version (git-version version revision commit))
@@ -134,7 +134,7 @@ many popular formats.")
 				(file-name (git-file-name name version))
 				(sha256
 				 (base32
-				  "092nkhw9dws6969312n5fg05m5yx7nv0c77svbnr15hxl5bn3gkx"))))
+				  "1sfzibjrmwr1b00a26zjkiq2wa3cbibq7bs0sq3a9z10h489w166"))))
       (build-system cmake-build-system)
       (arguments `(#:tests? #f))
       (inputs `(("qtbase" ,qtbase)
