@@ -119,6 +119,28 @@ many popular formats.")
     (license (list license:zlib         ; src/OpenColorIO/md5
                    license:bsd-3))))    ; the rest
 
+(define-public imath
+  (package
+    (name "imath")
+    (version "3.0.4")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/AcademySoftwareFoundation/imath")
+                    (commit (string-append "v" version))))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "04c9y6lni2lyxyaapbwnwrp3mdb1s2kmlrslkrxh1vlj1yiz4g24"))))
+    (build-system cmake-build-system)
+    (arguments `(#:configure-flags '("-DPYTHON=ON")))
+    (home-page "https://github.com/AcademySoftwareFoundation/Imath")
+    (synopsis "C++ and Python library of 2D and 3D vector, matrix, and math operations for computer graphics")
+    (description "Imath is a basic, light-weight, and efficient C++ representation of 2D and 3D
+vectors and matrices and other simple but useful mathematical objects, functions, and data
+types common in computer graphics applications, including the “half” 16-bit floating-point
+type.  Imath also includes optional python bindings for all types and functions, including optimized implementations of vector and matrix arrays.")
+    (license license:bsd-3)))
 (define-public olive-editor
   (let ((version "0.2.0")
 		(revision "1")
