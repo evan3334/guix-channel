@@ -181,6 +181,25 @@ type.  Imath also includes optional python bindings for all types and functions,
 computer imaging applications.  The IlmImf C++ libraries support storage of the \"EXR\" file format for storing 16-bit floating-point images.")
     (license license:bsd-3)))
 
+(define-public optional-lite
+  (package
+    (name "optional-lite")
+    (version "3.4.0")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/martinmoene/optional-lite")
+                    (commit (string-append "v" version))))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "17g8jcwyc3skf8nr68yr0mbp4q2hankgidgdgjfkyl03f5ysy64v"))))
+    (build-system cmake-build-system)
+    (home-page "https://github.com/martinmoene/optional-lite")
+    (synopsis "Header-only library providing a C++17-like optional type for C++98, C++11, and later")
+    (description "optional lite is a single-file header-only library to represent optional
+(nullable) objects and pass them by value.  The library aims to provide a C++17-like optional for use with C++98 and later.")
+    (license license:boost1.0)))
 (define-public olive-editor
   (let ((version "0.2.0")
 		(revision "1")
