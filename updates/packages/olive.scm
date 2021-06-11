@@ -141,6 +141,46 @@ vectors and matrices and other simple but useful mathematical objects, functions
 types common in computer graphics applications, including the “half” 16-bit floating-point
 type.  Imath also includes optional python bindings for all types and functions, including optimized implementations of vector and matrix arrays.")
     (license license:bsd-3)))
+
+(define-public openexr-3
+  (package
+    (name "openexr")
+    (version "3.0.4")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/AcademySoftwareFoundation/openexr")
+                    (commit (string-append "v" version))))
+              (file-name (git-file-name name version))
+              (sha256
+               (base32
+                "1pcd3rqdkl07fscnkxbxpy0h0qdzy5w5dl5k5mk36k6nizy2z8gx"))))
+    (build-system cmake-build-system)
+    (arguments
+     `(#:phases
+       (modify-phases %standard-phases
+         (add-after 'unpack 'fix-test-tmpdir
+             (lambda _
+               (let* ((new-tmpdir (string-append (getcwd) "/test-tmp"))
+                      (test-dir (string-append (getcwd) "/src/test/"))
+                      (get-tmpdir-h (lambda (dir) (string-append test-dir dir "/tmpDir.h")))
+                      (replace-files (list (get-tmpdir-h "OpenEXRFuzzTest")
+                                           (get-tmpdir-h "OpenEXRTest")
+                                           (get-tmpdir-h "OpenEXRUtilTest"))))
+                 (mkdir-p new-tmpdir)
+                 (map (lambda (file)
+                        (substitute* file
+                          (("/var/tmp") new-tmpdir)))
+                      replace-files)
+                 #t))))))
+    (inputs `(("zlib" ,zlib)
+              ("imath" ,imath)))
+    (home-page "https://www.openexr.com")
+    (synopsis "High-dynamic range file format library")
+    (description "OpenEXR is a high dynamic-range (HDR) image file format developed for use in
+computer imaging applications.  The IlmImf C++ libraries support storage of the \"EXR\" file format for storing 16-bit floating-point images.")
+    (license license:bsd-3)))
+
 (define-public olive-editor
   (let ((version "0.2.0")
 		(revision "1")
