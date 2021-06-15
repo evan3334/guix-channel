@@ -314,7 +314,7 @@ allocation.")
       (build-system cmake-build-system)
       (arguments
        `(#:configure-flags '("-DCMAKE_CXX_FLAGS=-Wno-error=shadow")))
-      (inputs `(("qtbase" ,qtbase)
+      (inputs `(("qtbase" ,qtbase-5)
 		("qtmultimedia" ,qtmultimedia)
 		("qttools" ,qttools)
 		("qtsvg" ,qtsvg)
