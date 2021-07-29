@@ -298,7 +298,7 @@ allocation.")
 (define-public olive-editor
   (let ((version "0.2.0")
 	(revision "1")
-	(commit "48828d6632a126c0967368eefd7114b9acebb076"))
+	(commit "539b0582bf5b790384da055b4cbbb5f464c05b0b"))
     (package
       (name "olive-editor")
       (version (git-version version revision commit))
@@ -310,7 +310,7 @@ allocation.")
 		(file-name (git-file-name name version))
 		(sha256
 		 (base32
-		  "1qi1zvppmlfw789j48g9kk9jxxasja1gbv4kjm53dmndmqga8gmr"))))
+		  "16aa9mv0xf1d7bsfx5ipgsa4yqmvw03xhxsjic6qxxhzp66wa5hz"))))
       (build-system cmake-build-system)
       (arguments
        `(#:configure-flags '("-DCMAKE_CXX_FLAGS=-Wno-error=shadow")))
