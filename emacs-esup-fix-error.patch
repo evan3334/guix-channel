@@ -1,0 +1,26 @@
+From cf875fac24c9f5ea6921ef1c7eaa5e8d7780eb29 Mon Sep 17 00:00:00 2001
+From: Evan Straw <evan.straw99@gmail.com>
+Date: Thu, 29 Jul 2021 10:26:03 -0500
+Subject: [PATCH] Add nil checking to fix `wrong-type-argument' error
+
+---
+ esup.el | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/esup.el b/esup.el
+index 737b3aa..0b5fbe1 100644
+--- a/esup.el
++++ b/esup.el
+@@ -592,7 +592,8 @@ current lexical context."
+       (message "at %s" esup-last-result-start-point)
+       (unless (eobp)
+         (while (setq sep-end-point (esup-next-separator-end-point))
+-          (setq results (cons (car (esup-read-result (point))) results))
++          (when-let ((result (car (esup-read-result (point)))))
++            (push result results))
+           (setq esup-last-result-start-point sep-end-point)
+           (goto-char esup-last-result-start-point))))
+     (nreverse results)))
+-- 
+2.25.1
+
