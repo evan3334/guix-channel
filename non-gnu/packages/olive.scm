@@ -1,4 +1,4 @@
-(define-module (updates packages olive)
+(define-module (non-gnu packages olive)
   #:use-module (guix packages)
   #:use-module (guix download)
   #:use-module (guix git-download)
