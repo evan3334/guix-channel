@@ -5,6 +5,7 @@
   #:use-module (guix build-system asdf)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages lisp)
+  #:use-module (gnu packages lisp-check)
   #:use-module (gnu packages lisp-xyz)
   #:use-module (gnu packages texinfo)
   #:use-module (ice-9 match)
