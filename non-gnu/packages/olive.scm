@@ -297,8 +297,8 @@ allocation.")
 
 (define-public olive-editor
   (let ((version "0.2.0")
-	(revision "1")
-	(commit "539b0582bf5b790384da055b4cbbb5f464c05b0b"))
+	(revision "2")
+	(commit "2a80b858f9ecc58b23d5c5cecbc5058b0444acb0"))
     (package
       (name "olive-editor")
       (version (git-version version revision commit))
