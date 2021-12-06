@@ -310,7 +310,7 @@ allocation.")
 		(file-name (git-file-name name version))
 		(sha256
 		 (base32
-		  "16aa9mv0xf1d7bsfx5ipgsa4yqmvw03xhxsjic6qxxhzp66wa5hz"))))
+		  "06izg7yb595swak2iki655g7ha35hhd8pnq0p6qnc8l4j6l8khvd"))))
       (build-system cmake-build-system)
       (arguments
        `(#:configure-flags '("-DCMAKE_CXX_FLAGS=-Wno-error=shadow")))
