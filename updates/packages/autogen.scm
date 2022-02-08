@@ -29,50 +29,50 @@
   #:use-module (gnu packages pkg-config)
   #:use-module (gnu packages base)
   #:use-module (gnu packages guile))
+(let ((version "5.18.16"))
+  (define-public autogen-fix
+    (package
+      (name "autogen")
+      (version (string-append version "-1"))
+      (source
+       (origin
+         (method url-fetch)
+         (uri (string-append "mirror://gnu/autogen/rel" version
+                             "/autogen-" version ".tar.xz"))
+         (sha256
+          (base32 "16mlbdys8q4ckxlvxyhwkdnh1ay9f6g0cyp1kylkpalgnik398gq"))))
+      (build-system gnu-build-system)
+      (native-inputs (list pkg-config which))
+      (inputs (list guile-2.2 perl))          ; for doc generator mdoc
+      (arguments
+       '(#:configure-flags
+         ;; XXX Needed to build 5.18.16.  ./configure fails without it:
+         ;; “Something went wrong bootstrapping makefile fragments for
+         ;;  automatic dependency tracking.  Try re-running configure with […]”
+         (list "--disable-dependency-tracking"
+               ;; XXX Needed to build 5.18.16; -Werror flag causes a format overflow
+               ;; warning to be turned into an error, and build phase fails
+               "CFLAGS=-Wno-format-overflow")
 
-(define-public autogen
-  (package
-    (name "autogen")
-    (version "5.18.16")
-    (source
-     (origin
-       (method url-fetch)
-       (uri (string-append "mirror://gnu/autogen/rel" version
-                           "/autogen-" version ".tar.xz"))
-       (sha256
-        (base32 "16mlbdys8q4ckxlvxyhwkdnh1ay9f6g0cyp1kylkpalgnik398gq"))))
-    (build-system gnu-build-system)
-    (native-inputs (list pkg-config which))
-    (inputs (list guile-2.2 perl))          ; for doc generator mdoc
-    (arguments
-     '(#:configure-flags
-       ;; XXX Needed to build 5.18.16.  ./configure fails without it:
-       ;; “Something went wrong bootstrapping makefile fragments for
-       ;;  automatic dependency tracking.  Try re-running configure with […]”
-       (list "--disable-dependency-tracking"
-       ;; XXX Needed to build 5.18.16; -Werror flag causes a format overflow
-       ;; warning to be turned into an error, and build phase fails
-             "CFLAGS=-Wno-format-overflow")
+         ;; XXX: Parallel tests may cause an indefinite hang with GNU Make 4.3.
+         #:parallel-tests? #f
 
-       ;; XXX: Parallel tests may cause an indefinite hang with GNU Make 4.3.
-       #:parallel-tests? #f
-
-       #:phases
-       (modify-phases %standard-phases
-         (add-before 'patch-source-shebangs 'patch-test-scripts
-           (lambda _
-             (let ((sh (which "sh")))
-               (substitute*
-                   (append (find-files "agen5/test" "\\.test$")
-                           (find-files "autoopts/test" "\\.(test|in)$"))
-                 (("/bin/sh") sh))
-               #t))))))
-    (home-page "https://www.gnu.org/software/autogen/")
-    (synopsis "Automated program generator")
-    (description
-     "AutoGen is a program to ease the maintenance of programs that contain
+         #:phases
+         (modify-phases %standard-phases
+           (add-before 'patch-source-shebangs 'patch-test-scripts
+             (lambda _
+               (let ((sh (which "sh")))
+                 (substitute*
+                     (append (find-files "agen5/test" "\\.test$")
+                         (find-files "autoopts/test" "\\.(test|in)$"))
+                   (("/bin/sh") sh))
+                 #t))))))
+      (home-page "https://www.gnu.org/software/autogen/")
+      (synopsis "Automated program generator")
+      (description
+       "AutoGen is a program to ease the maintenance of programs that contain
 large amounts of repetitive text.  It automates the construction of these
 sections of the code, simplifying the task of keeping the text in sync.  It
 also includes an add-on package called AutoOpts, which is specialized for the
 maintenance and documentation of program options.")
-    (license gpl3+)))
+      (license gpl3+))))
