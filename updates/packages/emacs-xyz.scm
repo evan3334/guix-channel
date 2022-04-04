@@ -38,3 +38,34 @@
       (description "Benchmark Emacs Startup time without ever leaving
 your Emacs.")
       (license license:gpl2+))))
+
+(define-public emacs-lsp-java
+  (let ((version "3.1")
+        (commit "0968038b9aea52ef3bf499e597cf3800d913c059")
+        (revision "1"))
+    (package
+      (name "emacs-lsp-java")
+      (version (git-version version revision commit))
+      (source (origin
+                (method git-fetch)
+                (uri (git-reference
+                      (url "https://github.com/emacs-lsp/lsp-java")
+                      (commit commit)))
+                (file-name (git-file-name name version))
+                (sha256
+                 (base32
+                  "1rpssrv1avbfq47h23qiymzhzddcxgs77diwq3mavqkxkqrkj3vz"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-dap-mode
+             emacs-lsp-mode
+             emacs-markdown-mode
+             emacs-dash
+             emacs-f
+             emacs-ht
+             emacs-request
+             emacs-treemacs))
+      (home-page "https://github.com/emacs-lsp/lsp-java/")
+      (synopsis "Java support for lsp-mode")
+      (description "Emacs Java IDE using Eclipse JDT Language Server.")
+      (license license:gpl3+))))
