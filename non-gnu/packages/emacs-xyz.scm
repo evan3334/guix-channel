@@ -9,7 +9,7 @@
 (define-public emacs-ein
   (package
     (name "emacs-ein")
-    (version "20210522.1036")
+    (version "20220513.1959")
     (source
      (origin
        (method url-fetch)
