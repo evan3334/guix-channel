@@ -4,6 +4,7 @@
   #:use-module (guix build-system emacs)
   #:use-module (gnu packages)
   #:use-module (gnu packages emacs-xyz)
+  #:use-module (gnu packages lua)
   #:use-module ((guix licenses) #:prefix license:))
 
 (define-public emacs-esup
@@ -68,4 +69,33 @@ your Emacs.")
       (home-page "https://github.com/emacs-lsp/lsp-java/")
       (synopsis "Java support for lsp-mode")
       (description "Emacs Java IDE using Eclipse JDT Language Server.")
+      (license license:gpl3+))))
+
+(define-public emacs-lua-mode
+  (let ((version "20210802")
+        (commit "d17a00ca50aee197cd017d573b83367eb241cc44")
+        (revision "1"))
+    (package
+      (name "emacs-lua-mode")
+      (version (git-version version revision commit))
+      (home-page "https://github.com/immerrr/lua-mode/")
+      (source
+       (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url home-page)
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 "1ycaz2jqms9pkfb052g64hdjd59zwshrww59rap0mqsmn5j3kfpw"))
+         (snippet '(begin (delete-file "test/test-strings-and-comments.el")))))
+      (build-system emacs-build-system)
+      (arguments
+       `(#:tests? #f))
+      (native-inputs
+       (list emacs-buttercup lua))
+      (synopsis "Major mode for lua")
+      (description
+       "This Emacs package provides a mode for @uref{https://www.lua.org/,
+Lua programming language}.")
       (license license:gpl3+))))
