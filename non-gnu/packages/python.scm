@@ -4,6 +4,7 @@
   #:use-module (guix build-system python)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages check)
+  #:use-module (gnu packages python-build)
   #:use-module (gnu packages python-science)
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages qt))
