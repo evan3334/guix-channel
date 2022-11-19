@@ -1,6 +1,7 @@
 (define-module (non-gnu packages emacs-xyz)
   #:use-module (guix packages)
   #:use-module (guix download)
+  #:use-module (guix git-download)
   #:use-module (guix build-system emacs)
   #:use-module (gnu packages emacs-xyz)
   #:use-module (gnu packages vulkan)
@@ -19,7 +20,7 @@
              ".tar"))
        (sha256
         (base32
-         "11v5pw42xsd7a2cnx77b6bj534mpi8yj0dj1qx0pq2ky9vi40pva"))))
+         "1a2lnfk43zp7bwyxsbz3dm6d554dwdkq2d6grfc365fqxvvcw4bl"))))
     (build-system emacs-build-system)
     (propagated-inputs
      `(("emacs-websocket" ,emacs-websocket)
@@ -29,6 +30,8 @@
        ("emacs-polymode" ,emacs-polymode)
        ("emacs-dash" ,emacs-dash)
        ("emacs-with-editor" ,emacs-with-editor)))
+    (arguments `(#:phases (modify-phases %standard-phases
+                            (delete 'check))))
     (home-page
      "https://github.com/millejoh/emacs-ipython-notebook")
     (synopsis "Jupyter notebook client in Emacs")
@@ -68,4 +71,23 @@
     (description
      "Provides a company completion backend glslangValidator and filtered
 lists provided by `glsl-mode'.")
+    (license license:gpl3+)))
+
+(define-public emacs-lsp-haskell
+  (package
+    (name "emacs-lsp-haskell")
+    (version "20220809.2129")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/emacs-lsp/lsp-haskell.git")
+                    (commit "485c1148ce4d27030bb95b21c7289809294e7d31")))
+              (sha256
+               (base32
+                "0ygyvam8h59bhx785rwf4hs30d95xk5kb48inr1gs4313qc2lil2"))))
+    (build-system emacs-build-system)
+    (propagated-inputs (list emacs-lsp-mode))
+    (home-page "https://github.com/emacs-lsp/lsp-haskell")
+    (synopsis "Haskell support for lsp-mode")
+    (description "Haskell specific adapter for LSP mode")
     (license license:gpl3+)))
