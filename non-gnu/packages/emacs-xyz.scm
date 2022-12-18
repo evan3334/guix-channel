@@ -91,3 +91,23 @@ lists provided by `glsl-mode'.")
     (synopsis "Haskell support for lsp-mode")
     (description "Haskell specific adapter for LSP mode")
     (license license:gpl3+)))
+
+(define-public emacs-flycheck-hledger
+  (package
+    (name "emacs-flycheck-hledger")
+    (version "20220715.1115")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/DamienCassou/flycheck-hledger.git")
+                    (commit "88c275563c8a1fbc9c4dead285d53d1e7c266665")))
+              (sha256
+               (base32
+                "0nihm80nfydiv0x199kqvf62qgkwxr7wrfqqgfav663qimbjmhz8"))))
+    (build-system emacs-build-system)
+    (propagated-inputs (list emacs-flycheck))
+    (home-page "https://github.com/DamienCassou/flycheck-hledger/")
+    (synopsis "Flycheck module to check hledger journals")
+    (description
+     "This package is a flycheck checker for hledger files.")
+    (license license:gpl3+)))

@@ -99,3 +99,35 @@ your Emacs.")
        "This Emacs package provides a mode for @uref{https://www.lua.org/,
 Lua programming language}.")
       (license license:gpl3+))))
+
+(define-public emacs-hledger-mode
+  (let ((commit "07baa57017e1b7703560363a6e1948b630a5158d")
+        (revision "1"))
+    (package
+      (name "emacs-hledger-mode")
+      (version (git-version "20221116.2203" revision commit))
+      (source (origin
+                (method git-fetch)
+                (uri (git-reference
+                      (url "https://github.com/narendraj9/hledger-mode")
+                      (commit commit)))
+                (file-name (git-file-name name version))
+                (sha256
+                 (base32
+                  "0ps6w2a060662c36nmjh0z9ln1gccgl9cvgynrw8m5811inxw4km"))))
+      (build-system emacs-build-system)
+      (propagated-inputs
+       (list emacs-popup
+             emacs-async
+             emacs-htmlize))
+      (arguments
+       '(#:include '("^[^/]+.el$")
+         #:exclude '()))
+      (home-page "https://github.com/narendraj9/hledger-mode")
+      (synopsis "Mode for writing journal entries for hledger")
+      (description
+       "This major mode for Emacs enables writing and managing hledger
+journal files.  It generates some useful reports along with some financial
+ratios that can help you keep a check on your financial health for users of
+the plaintext accounting system hledger.")
+      (license license:gpl3))))
