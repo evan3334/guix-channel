@@ -4,6 +4,7 @@
   #:use-module (guix git-download)
   #:use-module (guix build-system emacs)
   #:use-module (gnu packages emacs-xyz)
+  #:use-module (gnu packages ocaml)
   #:use-module (gnu packages vulkan)
   #:use-module ((guix licenses) #:prefix license:))
 
@@ -132,3 +133,33 @@ lists provided by `glsl-mode'.")
     "Gradle integration into Emacs, through compile-mode.  see documentation on
 https://github.com/jacobono/emacs-gradle-mode")
    (license #f)))
+
+(define-public emacs-flycheck-ocaml
+  (package
+    (name "emacs-flycheck-ocaml")
+    (version "20220730.542")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/flycheck/flycheck-ocaml.git")
+                    (commit "77f8ddbd9bfc3a11957ac7ec7e45d5fa9179b192")))
+              (sha256
+               (base32
+                "0ndqd5s43la6nyrzff7w4d7kb7ya77i0givi8p8cik4r8nfxwjnd"))))
+    (build-system emacs-build-system)
+    (propagated-inputs (list emacs-flycheck ocaml-merlin emacs-let-alist))
+    (home-page "https://github.com/flycheck/flycheck-ocaml")
+    (synopsis "Flycheck: OCaml support")
+    (description
+     "This Flycheck extension provides a new `ocaml-merlin syntax checker which uses
+Merlin Mode (see URL `https://github.com/ocaml/merlin') to check OCaml buffers
+for errors. # Setup Add the following to your init file: (with-eval-after-load
+merlin ;; Disable Merlin's own error checking (setq merlin-error-after-save nil)
+;; Enable Flycheck checker (flycheck-ocaml-setup)) (add-hook tuareg-mode-hook
+#'merlin-mode) # Usage Just use Flycheck as usual in Tuareg Mode buffers.
+Flycheck will automatically use the new `ocaml-merlin` syntax checker if Merlin
+Mode is enabled and Merlin's own error checking (`merlin-error-after-save`) is
+disabled.  If you enable Merlin's error checking with `M-x
+merlin-toggle-view-errors` Flycheck will not use the `ocaml-merlin` syntax
+checker anymore, to avoid duplicate and redundant error reporting.")
+    (license #f)))
