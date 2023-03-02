@@ -111,3 +111,24 @@ lists provided by `glsl-mode'.")
     (description
      "This package is a flycheck checker for hledger files.")
     (license license:gpl3+)))
+
+(define-public emacs-gradle-mode
+  (package
+   (name "emacs-gradle-mode")
+   (version "20150313.1905")
+   (source (origin
+            (method git-fetch)
+            (uri (git-reference
+                  (url "https://github.com/jacobono/emacs-gradle-mode.git")
+                  (commit "e4d665d5784ecda7ddfba015f07c69be3cfc45f2")))
+            (sha256
+             (base32
+              "0xs2278gamzg0710bm1fkhjh1p75m2l1jcl98ldhyjhvaf9d0ysc"))))
+   (build-system emacs-build-system)
+   (propagated-inputs (list emacs-s))
+   (home-page "https://github.com/jacobono/emacs-gradle-mode")
+   (synopsis "Gradle integration with Emacs' compile")
+   (description
+    "Gradle integration into Emacs, through compile-mode.  see documentation on
+https://github.com/jacobono/emacs-gradle-mode")
+   (license #f)))
