@@ -9,7 +9,9 @@
   #:use-module (gnu packages python-check)
   #:use-module (gnu packages python-crypto)
   #:use-module (gnu packages python-web)
-  #:use-module (gnu packages python-xyz))
+  #:use-module (gnu packages python-xyz)
+  #:use-module (gnu packages video)
+  #:use-module (gnu packages xiph))
 
 (define-public python-tzdata
   (package
