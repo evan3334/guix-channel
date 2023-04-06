@@ -6,6 +6,8 @@
   #:use-module (guix build-system pyproject)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages check)
+  #:use-module (gnu packages compression)
+  #:use-module (gnu packages freedesktop)
   #:use-module (gnu packages python-check)
   #:use-module (gnu packages python-crypto)
   #:use-module (gnu packages python-web)
@@ -48,14 +50,26 @@
     (arguments `(#:phases
                  (modify-phases %standard-phases
                    (replace 'check
+                     (lambda* _
+                       (invoke (which "pytest") "tests")))
+                   (add-after 'unpack 'patch-deps
                      (lambda* (#:key inputs #:allow-other-keys)
-                       (let ((pytest-path (assoc-ref inputs "python-pytest")))
-                         (invoke (string-append pytest-path "/bin/pytest") "tests")))))))
-    (propagated-inputs (list python-aiohttp
+                       (let* ((ffmpeg-exe (which "ffmpeg"))
+                              (opus-path (assoc-ref inputs "opus"))
+                              (opus-lib (string-append opus-path "/lib/libopus.so")))
+                         (substitute* "discord/opus.py"
+                           (("ctypes.util.find_library\\('opus'\\)")
+                            (string-append "\"" opus-lib "\"")))
+                         (substitute* "discord/player.py"
+                           (("(executable: str = )'ffmpeg'," all variable)
+                            (string-append variable "\"" ffmpeg-exe "\",")))))))))
+    (propagated-inputs (list python-aiodns
+                             python-aiohttp
+                             python-brotli
+                             python-cchardet ; Remove when Python upgrades to 3.10
                              python-pynacl
-                             python-tzdata
-                             ffmpeg
-                             opus))
+                             python-tzdata))
+    (inputs (list opus ffmpeg))
     (native-inputs (list python-coverage
                          python-pytest
                          python-pytest-asyncio
