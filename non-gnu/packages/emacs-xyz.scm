@@ -163,3 +163,22 @@ disabled.  If you enable Merlin's error checking with `M-x
 merlin-toggle-view-errors` Flycheck will not use the `ocaml-merlin` syntax
 checker anymore, to avoid duplicate and redundant error reporting.")
     (license #f)))
+
+(define-public emacs-lsp-pyright
+  (package
+    (name "emacs-lsp-pyright")
+    (version "20230225.1118")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/emacs-lsp/lsp-pyright.git")
+                    (commit "54a2acddfdd7c3d31cb804a042305a3c6e60cf81")))
+              (sha256
+               (base32
+                "1256q00zsh4q4p3qx5jwih1j7j7nfgmwvv9m0bn6j588wj97aiy2"))))
+    (build-system emacs-build-system)
+    (propagated-inputs (list emacs-lsp-mode emacs-dash emacs-ht))
+    (home-page "https://github.com/emacs-lsp/lsp-pyright")
+    (synopsis "Python LSP client using Pyright")
+    (description "Pyright language server.")
+    (license license:gpl3+)))
